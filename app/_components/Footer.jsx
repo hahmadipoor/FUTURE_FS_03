@@ -1,8 +1,13 @@
+'use client'
+
 import Image from 'next/image'
 import React from 'react'
+import { useUser } from '@clerk/nextjs'
 
 function Footer() {
-	return (
+	
+	const {user}=useUser();
+	return user && (
 		<footer className="mt-32 bg-gray-100">
 			<div className="max-w-5xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
 				<div className="flex justify-center text-teal-600">
