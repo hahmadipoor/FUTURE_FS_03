@@ -12,7 +12,7 @@ function Cart() {
 	const getTotalAmount = () => {
 		let totalAmount = 0;
 		cart.forEach(item => {
-			totalAmount = totalAmount + Number(item?.product?.attributes?.price)
+			totalAmount = totalAmount + Number(item?.product?.price)
 		})
 		return totalAmount
 	}
@@ -37,19 +37,19 @@ function Cart() {
 						<ul className="space-y-4">
 							{cart?.map((item) => (
 								<li className="flex items-center gap-4">
-									<img src={item?.product?.attributes?.banner?.data?.attributes?.url} alt="" className="object-cover w-16 h-16 rounded"/>
+									<img src={`http://localhost:1337${item?.product?.banner?.url}`} alt="" className="object-cover w-16 h-16 rounded"/>
 									<div>
-										<h3 className="text-sm text-gray-900">{item?.product?.attributes?.title}</h3>
+										<h3 className="text-sm text-gray-900">{item?.product?.title}</h3>
 										<dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
 											<div>
 												<dt className="inline">Category:</dt>
-												<dd className="inline">{item?.product?.attributes?.category}</dd>
+												<dd className="inline">{item?.product?.category}</dd>
 											</div>
 										</dl>
 									</div>
 
 									<div className="flex items-center justify-end flex-1 gap-2">
-										${item?.product?.attributes?.price}
+										${item?.product?.price}
 										<button onClick={() => deleteCartItemFromList(item?.id)} className="text-gray-600 transition hover:text-red-600">
 											<span className="sr-only">Remove item</span>
 											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
