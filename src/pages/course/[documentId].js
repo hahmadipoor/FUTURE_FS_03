@@ -1,3 +1,4 @@
+import Header from '@/components /Header'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -20,7 +21,8 @@ export default function CourseDetails() {
   const c = course
 
   return (
-    
+    <>
+    <Header />
     <main className="max-w-5xl mx-auto px-6 py-10 space-y-10">
     {/* Course Info */}
       <section className="relative h-96 w-full overflow-hidden rounded-xl shadow-lg">
@@ -73,6 +75,7 @@ export default function CourseDetails() {
       ))}
     </ul>
   </section>
-  </main>
+    </main>      
+    </>
   )
 }
