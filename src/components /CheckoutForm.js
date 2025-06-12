@@ -33,7 +33,8 @@ const CheckoutForm = ({ amount }) => {
     }
 
     if (paymentIntent && paymentIntent.status === 'succeeded') {
-      await createOrder();      
+      await createOrder();
+      await emptyCart();      
     }
   };
 
@@ -70,6 +71,27 @@ const CheckoutForm = ({ amount }) => {
       console.error('Error creating order:', err);
     }
 	}
+
+  const emptyCart = async () => {
+    const cartRes = await fetch(`http://localhost:1337/api/carts?filters[email][$eq]=${user?.primaryEmailAddress?.emailAddress}`);
+      const cartData = await cartRes.json();
+      const cartId = cartData?.data?.[0]?.id;
+      if (cartId) {
+          await fetch(`http://localhost:1337/api/carts/${cartId}`, {
+             method: 'PUT',
+             headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            data: {
+            email: user?.primaryEmailAddress?.emailAddress,  
+            courses: [] // Empty the course list
+          }
+      }),
+    });
+    }
+    setCart([]);
+  }
 
   return (
     <form onSubmit={handleSubmit} className="mx-32 md:mx-[320px] mt-12">

@@ -16,9 +16,9 @@ function Header() {
 	useEffect(() => {
 
 	  if (isSignedIn && user) {
-    	const fetchCart = async () => {
-			
-      		try {
+    	
+      const fetchCart = async () => {			
+      try {
 				const res = await fetch(`http://localhost:1337/api/carts?populate[courses][populate]=cover_image&filters[email][$eq]=${user.primaryEmailAddress.emailAddress}`);
 				const data = await res.json();
         		if (data.data && data.data.length > 0) {
@@ -48,7 +48,8 @@ function Header() {
             <nav aria-label="Global" className="hidden md:block">
               <ul className="flex items-center gap-6 text-sm">
                 <li><a href="/" className="text-gray-500 hover:text-gray-700 dark:text-white">Udemy</a></li>
-                <li><a href="/" className="text-gray-500 hover:text-gray-700 dark:text-white">Courses</a></li>
+                <li><a href="/course" className="text-gray-500 hover:text-gray-700 dark:text-white">Courses</a></li>
+                <li><a href="/orders" className="text-gray-500 hover:text-gray-700 dark:text-white">MyOrders</a></li>
               </ul>
             </nav>
 
