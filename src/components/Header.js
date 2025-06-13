@@ -44,15 +44,22 @@ function Header() {
       {openCart && <Cart onClose={() => setOpenCart(false)} />}
       <header className="bg-white dark:bg-gray-900">
         <div className="flex items-center h-16 max-w-screen-xl gap-8 px-4 mx-auto shadow-md sm:px-6 lg:px-8">
-          <div className="flex items-center justify-end flex-1 md:justify-between">
+          <div className="flex items-center justify-end flex-1 md:justify-between ">
             <nav aria-label="Global" className="hidden md:block">
-              <ul className="flex items-center gap-6 text-sm">
-                <li><a href="/" className="text-gray-500 hover:text-gray-700 dark:text-white">Udemy</a></li>
-                <li><a href="/course" className="text-gray-500 hover:text-gray-700 dark:text-white">Courses</a></li>
-                <li><a href="/orders" className="text-gray-500 hover:text-gray-700 dark:text-white">MyOrders</a></li>
-              </ul>
+             <ul className="flex items-center gap-6 text-sm">
+                <li>
+                    <a href="/" className="flex items-center">
+                        <img src="/logo3.png" alt="Learnumy Logo" className="h-24 object-contain" />
+                    </a>
+                </li>
+                <li>
+                  <a href="/course" className="text-gray-500 hover:text-gray-700 dark:text-white">Courses</a>
+                </li>
+                <li>
+                    <a href="/orders" className="text-gray-500 hover:text-gray-700 dark:text-white">MyOrders</a>
+                </li>
+            </ul>
             </nav>
-
             <div className="flex items-center gap-4">
               {!isSignedIn ? (
                 <div className="sm:flex sm:gap-4">

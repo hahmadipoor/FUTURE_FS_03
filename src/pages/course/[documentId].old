@@ -1,4 +1,4 @@
-import Header from '../../components/Header'
+import Header from '../../components /Header'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -7,7 +7,6 @@ export default function CourseDetails() {
   const [course, setCourse] = useState(null)
   const [summary, setSummary] = useState('')
   const [error, setError] = useState(null)
-  const [recommendations, setRecommendations] = useState([])
 
   useEffect(() => {
     if (!documentId) return
@@ -19,18 +18,18 @@ export default function CourseDetails() {
         setCourse(data.data)
 
         const courseText = {
-          title: data.data.title,
-          description: Array.isArray(data.data.description)
-            ? data.data.description.flatMap(block => block.children?.map(child => child.text) || []).join(' ')
-            : data.data.description,
-          lessons: data.data.lessons?.map(lesson => lesson.title).join(', ')
-        }
+  title: data.data.title,
+  description: Array.isArray(data.data.description)
+    ? data.data.description.flatMap(block => block.children?.map(child => child.text) || []).join(' ')
+    : data.data.description,
+  lessons: data.data.lessons?.map(lesson => lesson.title).join(', ')
+}
 
-        // Send cleaned text to summary
+        // Send cleaned text
         const summaryRes = await fetch('/api/summary', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ courseText })
+        method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ courseText })
         })
 
         const summaryData = await summaryRes.json()
@@ -40,44 +39,8 @@ export default function CourseDetails() {
         } else {
           setError(summaryData.message || 'Failed to fetch summary')
         }
-
-        // Fetch all courses for recommendation
-        const allRes = await fetch('http://localhost:1337/api/courses?populate=cover_image')
-        const allData = await allRes.json()
-
-        const current = {
-          title: data.data.title,
-          description: courseText.description
-        }
-
-        const all = allData.data.map(course => ({
-          title: course.title,
-          description: Array.isArray(course.description)
-            ? course.description.flatMap(block => block.children?.map(child => child.text) || []).join(' ')
-            : course.description,
-          id: course.id,
-          documentId: course.documentId,
-          cover: course.cover_image?.url
-        }))
-
-        const recRes = await fetch('/api/recommend', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ currentCourse: current, allCourses: all })
-        })
-        const recData = await recRes.json()
-        const aiTitles = recData.recommendations || []
-        const targetWords = data.data.title.toLowerCase().split(/\s+/)
-        const matched = all.filter(c => {
-                const otherWords = c.title.toLowerCase().split(/\s+/)
-                const wordMatch = targetWords.some(word => otherWords.includes(word))
-                const aiMatch = aiTitles.some(ai => c.title.toLowerCase().includes(ai.toLowerCase()))
-                return (wordMatch || aiMatch) && c.id !== data.data.id
-        })
-        
-        setRecommendations(matched)
       } catch (err) {
-        setError('Something went wrong while fetching course, summary, or recommendations')
+        setError('Something went wrong while fetching course or summary')
       }
     }
 
@@ -150,24 +113,6 @@ export default function CourseDetails() {
             ))}
           </ul>
         </section>
-
-        {/* Recommendations */}
-        {recommendations.length > 0 && (
-          <section className="bg-white rounded-xl shadow p-6 space-y-4">
-            <h2 className="text-2xl font-semibold text-gray-800">You might also like</h2>
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {recommendations.map(course => (
-                <li key={course.id} className="bg-gray-50 rounded-lg shadow-md p-4">
-                  {course.cover && (
-                    <img src={`http://localhost:1337${course.cover}`} className="w-full h-32 object-cover rounded-md mb-2" />
-                  )}
-                  <h3 className="text-lg font-medium">{course.title}</h3>
-                  <a href={`/course/${course.documentId}`} className="text-sm text-blue-600 mt-2 inline-block">View Course</a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
       </main>
     </>
   )

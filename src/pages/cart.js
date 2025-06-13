@@ -48,7 +48,7 @@ function Cart() {
 									</div>
 
 									<div className="flex items-center justify-end flex-1 gap-2">
-										${item?.product?.price}
+										${item?.price}
 										<button onClick={() => deleteCartItemFromList(item?.id)} className="text-gray-600 transition hover:text-red-600">
 											<span className="sr-only">Remove item</span>
 											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">

@@ -1,4 +1,4 @@
-import Header from '@/components /Header';
+import Header from '@/components/Header';
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 

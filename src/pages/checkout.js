@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import CheckoutForm from '../components /CheckoutForm'
+import CheckoutForm from '../components/CheckoutForm'
 import { useSearchParams } from 'next/navigation';
 
 
